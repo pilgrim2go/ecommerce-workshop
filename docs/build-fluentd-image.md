@@ -100,6 +100,50 @@ With this port (`24224`), docker logs will forward like this
 ```
 
 
+```
+<match pilgrim2go.**> (1)
+    @type copy (2)
+    <store> 
+        # for debug (see /var/log/td-agent.log)
+        type stdout
+    </store>  
+    <store> 
+        @type elasticsearch (3)
+        @log_level debug
+
+        host elasticsearch (4)
+        port 9200 (5)
+        user admin (6)
+        password admin (7)
+        scheme http
+        ssl_verify false
+        logstash_format true
+        logstash_prefix pilgrim2go (8)
+        logstash_dateformat %Y%m%d
+        include_tag_key true
+        type_name access_log
+        tag_key @log_name
+
+        flush_interval 1s
+    </store>
+</match>   
+```
+
+(1) Use `match` to route logs by tags properly
+
+see more : https://docs.fluentd.org/configuration/routing-examples
+
+(2) Using `copy` to copy events to multiple output
+
+see more: https://docs.fluentd.org/output/copy
+
+(3) copy events to Elasticsearch
+
+(4)(5)(6)(7) Elasticsearch information
+
+(8) This one is the most important one. Use it to identify logs in Kibana
+
+
 Add Fluentd to docker-compose to build
 
 ```

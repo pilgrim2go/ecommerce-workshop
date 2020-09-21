@@ -28,7 +28,6 @@ jobs:
           
           path: .
           dockerfile: ./Dockerfile
-          platforms: linux/amd64,linux/arm64,linux/386
           push: true
           tags: pilgrim2go/dummy/app:latest
       -

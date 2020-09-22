@@ -1,0 +1,84 @@
+name: ci
+
+on:
+  push:
+    branches: master
+
+jobs:
+
+    build-busybox:
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v2
+        - name: build
+          uses: docker/build-push-action@v1
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
+            path: ./
+            dockerfile: ./Dockerfile
+            registry: docker.io
+            repository: pilgrim2go/busybox
+            tags: latest
+
+        -
+          name: Image digest
+          run: echo ${{ steps.docker_build.outputs.digest }}
+    build-store-frontend-instrumented-fixed:
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v2
+        - name: build
+          uses: docker/build-push-action@v1
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
+            path: ./store-frontend-instrumented-fixed
+            dockerfile: ./store-frontend-instrumented-fixed/Dockerfile
+            registry: docker.io
+            repository: pilgrim2go/build-store-frontend-instrumented-fixed
+            tags: latest
+
+        -
+          name: Image digest
+          run: echo ${{ steps.docker_build.outputs.digest }}          
+    build-ads-service:
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v2
+        - name: build
+          uses: docker/build-push-action@v1
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
+            path: ./store-frontend-instrumented-fixed
+            dockerfile: ./ads-service/Dockerfile
+            registry: docker.io
+            repository: pilgrim2go/ads-service
+            tags: latest
+
+        -
+          name: Image digest
+          run: echo ${{ steps.docker_build.outputs.digest }}          
+    build-discounts-service-fixed:
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v2
+        - name: build
+          uses: docker/build-push-action@v1
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
+            path: ./store-frontend-instrumented-fixed
+            dockerfile: ./discounts-service-fixed/Dockerfile
+            registry: docker.io
+            repository: pilgrim2go/discounts-service-fixed
+            tags: latest
+
+        -
+          name: Image digest
+          run: echo ${{ steps.docker_build.outputs.digest }}                    

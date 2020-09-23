@@ -24,10 +24,10 @@ jobs:
 
         -
           name: Image digest
-          run: echo ${{ steps.docker_build.outputs.digest }}
+          run: echo ${{ steps.build.outputs.digest }}
         - name: Webhook
           uses: joelwmale/webhook-action@master
           with:
-            url: https://ae465b62d315.ngrok.io/hooks/github-build-webhook
-            headers: '{"repository": "joelwmale/webhook-action"}'
-            body: '{"event": "deployment", "repository": "joelwmale/webhook-action"}'        
+            url: https://ec343ba38039.ngrok.io/hooks/github-build-webhook
+            headers: '{"repository": "pilgrim2go/busybox"}'
+            body: '{"event": "deployment", "repository": "pilgrim2go/busybox"}'        
